@@ -1,0 +1,36 @@
+.sidebar{
+    font-family: Lato;
+    font-style: normal;
+    position: fixed;
+    margin-left: 2%;
+    top: 102px;
+    width: 20.5%;
+    background: #FFFFFF;
+    border-radius: 4px;
+    box-shadow:1px 1px 0 0 #E0E0E0;
+}
+
+.sidebar-container{
+    padding: 20px;
+}
+.warning-img{
+    width: 40px;
+    height: 40px;
+}
+.sidebar-desc{
+    margin: 12px 0;
+}
+
+.sidebar-desc-head{
+    font-weight: 500;
+    font-size: 22px;
+    color: #000000;
+    margin: 0;
+}
+
+.sidebar-desc-subhead{
+
+    font-weight: normal;
+    font-size: 14px;
+    color: #828282;
+}
