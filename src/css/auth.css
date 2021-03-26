@@ -1,5 +1,6 @@
 
 .auth-container{
+    font-family: Lato;
     position: absolute;
     width: 60%;
     height: 500px;
@@ -49,7 +50,6 @@
 }
 .auth-input{
     z-index: -10;
-    font-family: Lato;
     font-style: normal;
     font-weight: normal;
     height: 98%;
@@ -110,7 +110,7 @@ input:focus{
 }
 .left-container{
     position: absolute;
-    top: 10%;
+    top: 17%;
     left: 12%;
     text-align: center;
     width: 60%;
@@ -125,7 +125,6 @@ input:focus{
 }
 .auth-desc{
 
-    font-family: Lato;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -141,8 +140,6 @@ input:focus{
 }
 .forgot-password{
     width: 40px;
-
-    font-family: Lato;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;

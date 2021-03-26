@@ -1,13 +1,12 @@
 import React,{Component} from 'react';
-import RegisterForm from './RegisterForm';
-import {NavLink} from 'react-router-dom';
+import ResetPasswordForm from './ResetPasswordForm';
 import '../../css/auth.css';
-import logo from '../../images/logo.png'
-import element from '../../images/element.png';
+import {NavLink} from 'react-router-dom';
 import {UncontrolledAlert} from 'reactstrap'
+import logo from '../../images/logo.png'
+import element from '../../images/element.png'
 
-export default class Register extends Component{
-
+class Login extends Component{
 
     constructor(){
         super();
@@ -27,6 +26,7 @@ export default class Register extends Component{
             })
             return null;
     }
+
     render(){
         const {showAlert,alertColor,alertMessage} = this.state;
         return (
@@ -35,7 +35,7 @@ export default class Register extends Component{
                     {   
                         showAlert && 
                         <UncontrolledAlert color={alertColor} style={{position:"absolute",marginTop:"-24px",marginLeft:"10%",width:"80%",zIndex:"200"}}>
-                            { alertColor === "success" && <span>You have been registered successfully. You can <NavLink to="/login">Login</NavLink> here post verification.</span>}
+                            { alertColor === "success" && <span>You have been registered successfully. You can <NavLink to="/login">Login</NavLink> here</span>}
                             { alertColor === "danger" && <span>{alertMessage}</span> }
                         </UncontrolledAlert>
                     }
@@ -48,22 +48,24 @@ export default class Register extends Component{
                                 <p>Best Digital KYC management software solution provider with security and ease of use.</p>
                             </div>
                             <div className="auth-image">
-                                <img src={logo} alt="logo" />
+                                <img src={logo} alt="logo"/>
                             </div>
                         </div>
                     </div>
                     <div className="mid-line"></div>
                     <div className="auth-split auth-right">
-                        <RegisterForm callAlert = {this.callAlert}/>
+                        <ResetPasswordForm callAlert = {this.callAlert} alt="element" {...this.props}/>
                     </div>
                 </div>
                 <div className="auth-element1">
                     <img src={element} alt="element"/>
                 </div>
                 <div className="auth-element2">
-                    <img src={element} alt="element"/>
+                    <img src={element} element />
                 </div>
             </div>
         )
     }
 }
+
+export default Login

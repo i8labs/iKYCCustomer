@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import DownIcon from "mdi-react/ChevronDownIcon";
-import {Amplify,Auth} from "aws-amplify";
+import {Auth} from "aws-amplify";
 import { Collapse } from "reactstrap";
 import TopbarMenuLink from "./TopbarMenuLink";
 import { withRouter } from "react-router";
@@ -19,37 +19,44 @@ class TopbarProfile extends PureComponent {
     this.setState((prevState) => ({ collapse: !prevState.collapse }));
   };
 
+  componentDidMount = async() =>{
+    const institution = await Auth.currentAuthenticatedUser();
+    this.setState({
+      display_name:institution.attributes.name
+    }) /// attach with ID not email
+  }
+
   logOut = async () => {
     await Auth.signOut();
     this.props.history.push("/login");
   };
 
   render() {
-    const { collapse, profile_pic } = this.state;
+    const { collapse, profile_pic ,display_name} = this.state;
 
     return (
       <div className="topbar__profile ml-0">
-        <button type="button" className="topbar__avatar" onClick={this.toggle}>
-        <div className="topbar__avatar-name" style={{background:"#EB5757",borderRadius: "4px",width: "188px",height:"32px",paddingTop:"6.5px",margin:"17px 12px 0 0"}}>
-          <p style={{fontSize:"12px",lineHeight:"140.3%",color:"#FFFFFF"}}>KYC is not completed</p>
-        </div>
+        <button type="button" className="topbar__avatar" onClick={this.toggle} >
+        
           <img
             className="topbar__avatar-img"
             src="https://robohash.org/qwert"
             alt="avatar"
           />
+          <div className="topbar__avatar-name" style={{paddingTop:"11px"}}>
+            <p >{display_name}</p>
+          </div>
           <DownIcon className="topbar__icon" />
         </button>
-        {collapse && (
-          <button
-            type="button"
-            className="topbar__back"
-            onClick={this.toggle}
-          />
-        )}
-         <Collapse isOpen={collapse} className="topbar__menu-wrap" style={{background:"#F4F8F9"}}>
-          <div className="topbar__menu">
-            <div onClick={this.logOut}>
+         <Collapse isOpen={collapse} className="topbar__menu-wr" style={{background:"#F4F8F9",marginTop:"7px"}}>
+          <div className="topbar__menu" >
+            <TopbarMenuLink
+              title="Dashboard"
+              icon="list"
+              path="/dashboard"
+              style={{paddingBottom:"22px"}}
+            />
+            <div onClick={this.logOut} style={{borderTop:"1px solid #BDBDBD"}}>
               <TopbarMenuLink title="Log Out" icon="exit" path="/login" />
             </div>
           </div>

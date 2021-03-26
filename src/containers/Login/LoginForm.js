@@ -19,7 +19,6 @@ class LoginForm extends Component{
     handleChange = (e) =>{
         this.setState({
             [e.target.name]:e.target.value,
-            errors:{},
             success:false,
         });
     }
@@ -37,19 +36,17 @@ class LoginForm extends Component{
               password,
             });
             if (LoginResponse) {
-                console.log(LoginResponse);
-              this.setState({loading:false});
-              this.props.history.push('/home')
+                console.log(LoginResponse)
+              this.props.history.push('/dashboard')
             } else {
               this.setState({ password: "", confirmpassword: "",loading:false });
             }
           } catch (err) {
             console.log(err);
-            const message = err.message;
+            this.props.callAlert(err.message)
             this.setState({
               password: "",
               confirmpassword: "",
-              errors: {message},
               loading:false
             });
           }
@@ -57,24 +54,19 @@ class LoginForm extends Component{
 
     render(){
 
-        const {errors,email,password,loading} = this.state;
+        const {email,password,loading} = this.state;
         return (
-            <div class="auth-right-container">
+            <div className="auth-right-container">
                     <form onSubmit = {this.handleSubmit} autoComplete = "off">
                         <div className="auth-title-form">
                             <p>Login</p>
                         </div>
-                        {errors.message && 
-                            <p className="auth-message bg-error">
-                             {errors.message}
-                            </p>
-                        }
                         <div className="form-input">
-                            <input className="auth-input" type="email" placeholder="Email" name="email" value={email} onChange={this.handleChange} autocomplete="off" required/>
+                            <input className="auth-input" type="email" placeholder="Email" name="email" value={email} onChange={this.handleChange} autoComplete="off" required/>
                         </div>
                         <div className="form-input">
                             <input className="auth-input login-password" type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} required/>
-                            <span className="forgot-password">Forgot</span>
+                            <span className="forgot-password"><NavLink to="/reset_password" style={{textDecoration:"none"}}>Forgot</NavLink></span>
                         </div>
                         <div className="auth-exist-login">
                             <p>No Account? <NavLink to="/register" style={{textDecoration:"none",color:"blue"}}>Sign Up</NavLink></p>

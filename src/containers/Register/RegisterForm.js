@@ -1,27 +1,25 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import {Auth} from 'aws-amplify';
-import Spinner from '../../shared/spinner';
 
 class RegisterForm extends Component{
 
     constructor(){
         super();
         this.state = {
+            i_name:'',
+            phone_number:"",
+            contactPerson:"",
             email:"",
             password:"",
             confirmPassword:"",
-            errors:{},
-            registered:false,
-            success:false
+            registered:false
         };
     };
 
     handleChange = (e) =>{
         this.setState({
-            [e.target.name]:e.target.value,
-            errors:{},
-            success:false,
+            [e.target.name]:e.target.value
         });
     }
 
@@ -33,14 +31,13 @@ class RegisterForm extends Component{
         this.setState({
             loading:true
         })
-        const {email,password,confirmPassword} = this.state;
+        const {email,password,confirmPassword,i_name,phone_number,contactPerson} = this.state;
         
         if(password !== confirmPassword){
-            const message = 'Passwords do not match.'
+            this.props.callAlert("passwords do not match","danger")
             this.setState({
                 password:'',
                 confirmPassword:'',
-                errors:{message},
                 loading:false
             });
             return ;
@@ -49,19 +46,24 @@ class RegisterForm extends Component{
             const signUpResponse = await Auth.signUp({
               username: email,
               password,
+              attributes: {
+                name: i_name,
+                phone_number:"+91"+phone_number,
+                "custom:contact_person":contactPerson
+              },
             });
             if (signUpResponse) {
+              await this.props.callAlert("success","success")
               this.setState({registered:true,loading:false});
             } else {
               this.setState({ password: "", confirmpassword: "",loading:false });
             }
           } catch (err) {
             console.log(err);
-            const message = err.message;
+            await this.props.callAlert(err.message,"danger")
             this.setState({
               password: "",
               confirmpassword: "",
-              errors: {message},
               loading:false
             });
           }
@@ -69,29 +71,29 @@ class RegisterForm extends Component{
 
     render(){
 
-        const {errors,email,password,confirmPassword,success,loading,registered} = this.state;
+        const {email,password,confirmPassword,phone_number,contactPerson,loading,registered,i_name} = this.state;
 
         return (
-            <div class="auth-right-container">
+            <div className="auth-right-container" style={{top:"11%"}}>
                     <form onSubmit = {this.handleSubmit} autoComplete = "off">
                         <div className="auth-title-form">
                             <p>Sign Up</p>
                         </div>
-                        {errors.message && 
-                            <p className="auth-message bg-error">
-                             {errors.message}
-                            </p>
-                        }
-                        {registered && 
-                            <p className="auth-message bg-success">
-                                 You have been registered successfully.Check your email for verification link,you can <NavLink to='/login' style={{textDecoration:"none",color:"blue"}}>Login Here</NavLink> post verifiaction. 
-                            </p>
-                        }
+                        
                         <div className="form-input">
-                            <input className="auth-input" type="email" placeholder="Email" name="email" value={email} onChange={this.handleChange} autocomplete="off" required/>
+                            <input className="auth-input" type="text" placeholder="Institution name" name="i_name" value={i_name} onChange={this.handleChange} autoComplete="off" required/>
                         </div>
                         <div className="form-input">
-                            <input className="auth-input" type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} required/>
+                            <input className="auth-input" type="email" placeholder="Email" name="email" value={email} onChange={this.handleChange} autoComplete="off" required />
+                        </div>
+                        <div className="form-input">
+                            <input className="auth-input" type="text" placeholder="Phone No" name="phone_number" value={phone_number} onChange={this.handleChange} autoComplete="off" required />
+                        </div>
+                        <div className="form-input">
+                            <input className="auth-input" type="text" placeholder="Contact Person" name="contactPerson" value={contactPerson} onChange={this.handleChange} autoComplete="off" required />
+                        </div>
+                        <div className="form-input">
+                            <input className="auth-input" type="password" placeholder="Create Password" name="password" value={password} onChange={this.handleChange} required/>
                         </div>
                         <div className="form-input">
                             <input className="auth-input" type="password" placeholder="Confirm Password" name="confirmPassword" value={confirmPassword} onChange={this.handleChange} required/>
