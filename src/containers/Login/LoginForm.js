@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
-import {Auth} from 'aws-amplify'
+import {Auth} from 'aws-amplify';
+import Endpoints from '../../api'
+import Axios from 'axios';
+
 
 class LoginForm extends Component{
 
@@ -36,8 +39,20 @@ class LoginForm extends Component{
               password,
             });
             if (LoginResponse) {
-                console.log(LoginResponse)
-              this.props.history.push('/dashboard')
+                console.log("lr",LoginResponse)
+
+                try{
+                let params = {cognito_id : LoginResponse.username}
+
+                const resp = await Axios.get(Endpoints.GET_UserId,{params})
+                if(resp){
+                    localStorage.setItem('User_Id', resp.data[0]);
+                    this.props.history.push('/dashboard')
+                }
+                }catch(err){
+                    await Auth.signOut()
+                    this.props.callAlert(err.message)
+                }
             } else {
               this.setState({ password: "", confirmpassword: "",loading:false });
             }
@@ -69,7 +84,7 @@ class LoginForm extends Component{
                             <span className="forgot-password"><NavLink to="/reset_password" style={{textDecoration:"none"}}>Forgot</NavLink></span>
                         </div>
                         <div className="auth-exist-login">
-                            <p>No Account? <NavLink to="/register" style={{textDecoration:"none",color:"blue"}}>Sign Up</NavLink></p>
+                            {/* <p>No Account? <NavLink to="/register" style={{textDecoration:"none",color:"blue"}} disabled>Sign Up</NavLink></p> */}
                         </div>
                         <div >
                          <button className="auth-submit-button" style={{background:loading?"gray":"#2F80ED",opacity:loading?"0.5":""}} disabled={loading}>Login</button>

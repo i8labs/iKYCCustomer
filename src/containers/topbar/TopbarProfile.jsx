@@ -28,6 +28,7 @@ class TopbarProfile extends PureComponent {
 
   logOut = async () => {
     await Auth.signOut();
+    localStorage.removeItem('User_Id');
     this.props.history.push("/login");
   };
 

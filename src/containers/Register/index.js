@@ -54,7 +54,7 @@ export default class Register extends Component{
                     </div>
                     <div className="mid-line"></div>
                     <div className="auth-split auth-right">
-                        <RegisterForm callAlert = {this.callAlert}/>
+                        {/* <RegisterForm callAlert = {this.callAlert}/> */}
                     </div>
                 </div>
                 <div className="auth-element1">
