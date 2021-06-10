@@ -28,6 +28,11 @@
     border-top: none;
     
 }
+.td-enter-otp:hover{
+    color: orange;
+    cursor: pointer;
+    text-decoration: underline;
+}
 .dashbord-invalidUser{
     position: absolute;
     top:25%;

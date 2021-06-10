@@ -16,6 +16,9 @@ class Sidebar extends PureComponent {
           <NavLink className="sidebar_menu-navlink" to="/dashboard">
               <div className="sidebar_menu" style={{background:(pathname.includes('dashboard'))?'rgb(255, 144, 64)':''}}>Dashboard</div>
             </NavLink>
+          <NavLink className="sidebar_menu-navlink" to="/kyc_request">
+            <div className="sidebar_menu" style={{background:(pathname.includes('kyc_request'))?'rgb(255, 144, 64)':''}}>KYC Request</div>
+          </NavLink>
         </div>
       </div>
     );

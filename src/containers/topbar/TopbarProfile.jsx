@@ -33,7 +33,7 @@ class TopbarProfile extends PureComponent {
   };
 
   render() {
-    const { collapse, profile_pic ,display_name} = this.state;
+    const { collapse,display_name} = this.state;
 
     return (
       <div className="topbar__profile ml-0">
