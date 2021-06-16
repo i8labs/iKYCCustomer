@@ -11,6 +11,7 @@
     background: #FFFFFF;
     border-radius: 14px;
     box-sizing: inherit;
+    transition: all 0.3;
 }
 .user_detail-split{
     width: 50%;

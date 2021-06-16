@@ -3,18 +3,36 @@
     import {Button } from 'reactstrap';
     import {NavLink } from "react-router-dom";
     import id_image from '../../images/id.jpg'
+    import Axios from 'axios';
+    import Endpoints from '../../api';
 
     class Login extends Component{
 
         constructor(){
             super();
             this.state = {
-                user:[]
+                user:[],
+                user_documents : {},
+                loading:true
             }
         }
-
-        componentDidMount = () =>{
-            console.log(this.props.match.params.user_id);
+    
+        componentDidMount = async(e) =>{
+            try{
+                const user_Id = localStorage.getItem("User_Id");
+                const body = {user_Id};
+                let resp = await Axios.post(Endpoints.GET_USER_DETAIL,body);
+                if(resp){
+                    let resp2 = await Axios.post(Endpoints.GET_USER_DOCUMENT,{userId:user_Id});
+                    this.setState({
+                        user : resp.data[0],
+                        user_documents : resp2.data,
+                        loading : false,
+                    })
+                }
+            }catch(err){
+                console.log(err);
+            }
         }
 
         render(){

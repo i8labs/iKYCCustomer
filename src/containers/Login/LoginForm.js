@@ -44,7 +44,7 @@ class LoginForm extends Component{
                 try{
                 let params = {cognito_id : LoginResponse.username}
 
-                const resp = await Axios.get(Endpoints.GET_UserId,{params})
+                const resp = await Axios.get(Endpoints.GET_USER_DETAIL,{params})
                 if(resp){
                     localStorage.setItem('User_Id', resp.data[0]);
                     this.props.history.push('/dashboard')

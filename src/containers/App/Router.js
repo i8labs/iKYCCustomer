@@ -17,6 +17,7 @@ const Pages = () => (
         <Route exact path='/kyc_form/:user_id' component={KYCForm} />
         <Route exact path ='/user/:user_id' component={UserDetail} />
         <Route path='/kyc_request' component={KYC_Request} />
+        <Route path="*" component= {Dashboard} />
     </Switch>
 );
 
