@@ -1,7 +1,8 @@
 import React, { PureComponent } from "react";
 import {Button , Row, Col,Progress } from 'reactstrap';
-import Endpoints from '../../api';
+import Endpoints from '../../../src/api';
 import axios from 'axios';
+import {Spinner} from 'reactstrap';
 
 class PersonalDetailForm extends PureComponent {
     constructor(){
@@ -19,6 +20,7 @@ class PersonalDetailForm extends PureComponent {
             id_image_percent : 0,
             address_image_percent : 0,
             bank_image_percent : 0,
+            loading:false,
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -27,7 +29,7 @@ class PersonalDetailForm extends PureComponent {
 
         let bodyData = {
           bucketName: "kycverficationdocuments",
-          fileName: this.props.match.params.user_id + "/" + file_type +'.jpg'
+          fileName: localStorage.getItem("User_Id") + "/" + file_type +'.jpg'
         }
         const options = {
             onUploadProgress: (progressEvent) =>{
@@ -55,51 +57,75 @@ class PersonalDetailForm extends PureComponent {
         this.setState({
             [e.target.name]:e.target.value
         })
+        console.log(e.target.value);
     }
 
     handleFileChange = async(e) =>{
         this.setState({
-            [e.target.name + '_percent']:1
+            [e.target.name + '_percent']:1,
+            loading_file:true
         })
         try{
            let resp = await this.UploadDocument(e.target.name,e.target.files[0])
             if (resp){
                 this.setState({
                     [e.target.name]: URL.createObjectURL(e.target.files[0]),
-                    [e.target.name + '_percent']:0
+                    [e.target.name + '_percent']:0,
+                    loading_file:false
                 })
             }
         }catch(err){
             this.setState({
-                [e.target.name + '_percent']:0
+                [e.target.name + '_percent']:0,
+                loading_file:false
             })
         }
     }
 
-    handleSubmit = (e) =>{
+    handleSubmit = async (e) =>{
+        this.setState({
+            loading:true,
+        })
+        console.log(this.state.bank_proof);
         e.preventDefault();
+        const User_Id = localStorage.getItem("User_Id");
         const {id_proof,id_number,ifsc,account_number,address_proof,bank_proof} = this.state;
         const body = {
             idProof:id_number,
             idType:id_proof,
             IFSC : ifsc,
             accountNumber: account_number,
-            userId: this.props.match.params.user_id
+            userId: User_Id,
+            bankName: bank_proof,
+            userSide:""
         }
         try{
-           let resp = axios.post(Endpoints.UPLOAD_KYC_DETAIL,body)
+           let resp = await axios.post(Endpoints.UPLOAD_KYC_DETAIL,body)
             if(resp){
                 console.log('submitted successfully')
+                this.props.history.push("/dashboard");
             }
         }catch(err){
             console.log(err);
+            this.setState({
+                loading:false,
+            })
         }
     }
 
     render(){
-    const {id_number,id_image,address_image,ifsc,account_number,bank_image,percent,id_image_percent,address_image_percent,bank_image_percent} = this.state;
+    const {id_number,id_image,address_image,ifsc,account_number,bank_image,percent,id_image_percent,address_image_percent,bank_image_percent,loading,loading_file} = this.state;
     return (
         <>
+        {
+                   !!loading && 
+                   <div className="panel__refresh">
+                    <div className="loading__icon">
+                        <Spinner color="primary"/>
+                    </div>
+                  </div>
+        }
+        { !loading &&
       <div>
             <div className="pd-form-heading">
             Select Govement ID Proof
@@ -118,7 +144,7 @@ class PersonalDetailForm extends PureComponent {
                 </Row>
                 <Row xs="1" className="file_upload">
                     <Col >
-                    <input type="file" id="id_image" name="id_image" accept="image/*"  onChange={this.handleFileChange}/>
+                    <input type="file" id="id_image" name="id_image" accept="image/*"  onChange={this.handleFileChange} disabled={loading_file}/>
                     <label for="id_image" >+ Upload Government Identity Proof</label>
                     {id_image_percent>0 && id_image_percent<100 && <Progress animated value={id_image_percent} style={{width:"80%",height:"8px"}}/>}
                     {id_image &&
@@ -143,7 +169,7 @@ class PersonalDetailForm extends PureComponent {
             </Row>
             <Row xs="1" className="file_upload">
                 <Col>
-                    <input type="file" id="address_image" name="address_image" accept="image/*"  onChange={this.handleFileChange}/>
+                    <input type="file" id="address_image" name="address_image" accept="image/*"  onChange={this.handleFileChange} disabled={loading_file}/>
                     <label for="address_image" >+ Upload Address Detail proof</label>
                     {address_image_percent>0 && address_image_percent<100 && <Progress animated value={address_image_percent} style={{width:"80%",height:"8px"}}/>}
                 {address_image &&
@@ -173,7 +199,7 @@ class PersonalDetailForm extends PureComponent {
             </Row>
             <Row xs="1" className="file_upload">
                 <Col >
-                <input type="file" id="bank_image" name="bank_image" accept="image/*"  onChange={this.handleFileChange}/>
+                <input type="file" id="bank_image" name="bank_image" accept="image/*"  onChange={this.handleFileChange} disabled={loading_file}/>
                 <label for="bank_image" >+ Upload Bank detail proof</label>
                 {bank_image_percent>0 && bank_image_percent<100 && <Progress animated value={bank_image_percent} style={{width:"80%",height:"8px"}}/>}
                 {bank_image &&
@@ -187,6 +213,7 @@ class PersonalDetailForm extends PureComponent {
                 <Button color="primary" style={{width:"200px"}} onClick={this.handleSubmit}>Submit</Button>
             </div>
       </div>
+      }
       </>
     );
   }

@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import PersonalDetailForm from './PersonalDetailForm'
-import '../../css/sidebar.css'
 import warning_img from '../../images/warning.png';
 import '../../css/kycForm.css';
 

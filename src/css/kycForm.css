@@ -1,9 +1,9 @@
 .kyc_form-container {
     background: #FFFFFF;
     position:absolute;
-    right: 0;
+    right: 2px;
     top:64px;
-    width: 75%;
+    width: 66%;
     font-style: normal;
     font-weight: normal;
     border-left: 1px solid #E0E0E0;
@@ -113,8 +113,8 @@ select {
 .panel__refresh {
   margin-left: -35px;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100rem;
+  height: 100rem;
   top: 0;
 }
 .panel__refresh:before {

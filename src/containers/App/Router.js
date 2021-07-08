@@ -14,7 +14,7 @@ import KYC_Request from '../KYC_Request';
 const Pages = () => (
     <Switch>
         <Route path='/dashboard' component={Dashboard} />
-        <Route exact path='/kyc_form/:user_id' component={KYCForm} />
+        <Route exact path='/kyc_form' component={KYCForm} />
         <Route exact path ='/user/:user_id' component={UserDetail} />
         <Route path='/kyc_request' component={KYC_Request} />
         <Route path="*" component= {Dashboard} />
@@ -25,7 +25,9 @@ const wrappedRoutes = (props) => (
     <div>
       <Topbar />
       <Sidebar {...props}/>
-      <Route path="/" component={Pages} />
+      <div className="main_container">
+        <Route path="/" component={Pages} />
+      </div>
     </div>
   )
 

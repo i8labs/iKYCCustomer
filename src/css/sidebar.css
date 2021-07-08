@@ -1,7 +1,7 @@
 .sidebar_wrapper{
     z-index: 99;
     position: fixed;
-    width: 118px;
+    width: 148px;
     height: 100%;
     padding-top: 90px;
     overflow-y: auto;
@@ -13,11 +13,18 @@
 }
 
 .sidebar_menu{
-    padding:14px 10px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    margin: 8px 0 8px 8px;
+    padding:10px;
     font-size: 16px;
     font-family: Lato;
     font-style: normal;
     font-weight: bold;
+}
+.sidebar-active {
+    background-color: #f5921e;
+    color: white;
 }
 .sidebar_menu-navlink, .sidebar_menu-navlink:hover{
     text-decoration: none;
@@ -25,5 +32,9 @@
 }
 .sidebar_menu:hover{
     cursor: pointer;
-    background:chocolate
+    background-color: #f5921e;
+    color: white;
+}
+.file_upload {
+    width: 99%;
 }

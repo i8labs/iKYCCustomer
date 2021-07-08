@@ -41,7 +41,7 @@ class TopbarProfile extends PureComponent {
         
           <img
             className="topbar__avatar-img"
-            src="https://robohash.org/qwert"
+            src="https://robohash.org/qwerty"
             alt="avatar"
           />
           <div className="topbar__avatar-name" style={{paddingTop:"11px"}}>

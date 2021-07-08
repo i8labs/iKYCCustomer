@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {Button,Spinner} from 'reactstrap';
 import Axios from 'axios';
 import '../../css/dashboard.css';
@@ -66,19 +66,28 @@ export default class Layout extends Component{
                                             style={{width:"50px",height:"50px"}}
                                         />
                                     </div>
-                                    <div className="user_detail-header">
-                                        <p>View KYC Details</p>
+                                    <div className="user_detail-header" style={{background:"#f5921e",minWidth:"120px"}}>
+                                        {/* <p>View KYC Details</p> */}
+                                        <Link to="kyc_form" > <p>Fill KYC Form </p></Link>
                                     </div>
                                 </div>
                                 <div className="user_detail-name">
                                     Hello, {user.Name}
                                 </div>
-                                <div className="user_detail-subhead">
-                                    Your kyc is completed. 
-                                </div>
-                                <div>
+                                    <div className="user_detail-dob">
+                                        DOB: {user.DOB}
+                                    </div>
+                                    <div className="user_detail-contacts">
+                                        {user.Phone_No}
+                                        <br/>
+                                        {user.Email}
+                                    </div>
+                                {/* <div>
                                   <a href={user_documents.QR} title="Save QR"><img src={user_documents.QR} alt="QR Code" width="225px" height="225px" /></a>
                                   <p className="user_details-qr_send">send</p>
+                                </div> */}
+                                <div style={{position:"absolute",maxWidth:"400px",width:"100vw",fontSize:"18px"}}>
+                                    You have not completed your KYC form.Please fill it to get your QR code.
                                 </div>
                             </div>
                         </div>
