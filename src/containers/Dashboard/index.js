@@ -35,6 +35,9 @@ export default class Layout extends Component{
             }
         }catch(err){
             console.log(err);
+            this.setState({
+                loading:false
+            })
         }
     }
 
@@ -47,11 +50,11 @@ export default class Layout extends Component{
             <>
                 {
                 !!loading && 
-                <div className="panel__refresh">
-                    <div className="loading__icon">
-                    <Spinner color="primary"/>
+                    <div className="panel__refresh">
+                        <div className="loading__icon">
+                        <Spinner color="primary"/>
+                        </div>
                     </div>
-                </div>
                 }
                 { !loading && !!user &&
                 <div className="user_detail-main">
@@ -68,7 +71,7 @@ export default class Layout extends Component{
                                     </div>
                                     <div className="user_detail-header" style={{background:"#f5921e",minWidth:"120px"}}>
                                         {/* <p>View KYC Details</p> */}
-                                        <Link to="kyc_form" > <p>Fill KYC Form </p></Link>
+                                        <Link to="kyc_form" > <p>{user_documents.QR?"Update KYC":"Fill KYC"} </p></Link>
                                     </div>
                                 </div>
                                 <div className="user_detail-name">
@@ -82,19 +85,22 @@ export default class Layout extends Component{
                                         <br/>
                                         {user.Email}
                                     </div>
-                                {/* <div>
-                                  <a href={user_documents.QR} title="Save QR"><img src={user_documents.QR} alt="QR Code" width="225px" height="225px" /></a>
-                                  <p className="user_details-qr_send">send</p>
-                                </div> */}
-                                <div style={{position:"absolute",maxWidth:"400px",width:"100vw",fontSize:"18px"}}>
+                                { !!user_documents.QR && 
+                                    <div>
+                                        <a href={user_documents.QR} title="Save QR"><img src={user_documents.QR} alt="QR Code" width="225px" height="225px" />
+                                         <p className="user_details-qr_send">Download</p>
+                                        </a> 
+                                    </div>
+                                }
+                                {!user_documents.QR && <div style={{position:"absolute",maxWidth:"400px",width:"100vw",fontSize:"18px"}}>
                                     You have not completed your KYC form.Please fill it to get your QR code.
-                                </div>
+                                </div>}
                             </div>
                         </div>
                         <div className="user_detail-split user_detail-right">
                             <div className="user_detail-right-container">
                                     <div className="user_detail-right-head">
-                                      Institution List ({institutions.length})
+                                      Institution List ({(institutions.length)?institutions.length:0})
                                     </div>
                                     { !institutions.length && 
                                         <p>You have not send QR to any Insititute</p>

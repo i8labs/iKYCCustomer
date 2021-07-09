@@ -7,7 +7,7 @@ export default class Layout extends Component{
     render(){
         return (
             <div>
-                <div className="formpage-sidebar">
+                {/* <div className="formpage-sidebar">
                     <div className="formpage-sidebar-container">
                         <div className="formpage-warning-img">
                             <img src={warning_img} />
@@ -17,7 +17,7 @@ export default class Layout extends Component{
                             <p className="formpage-sidebar-desc-subhead">Please fill the form and attach the require document to complete KYC.</p>
                         </div>
                         </div>
-                </div>
+                </div> */}
 
 
             <div className="kyc_form-container">

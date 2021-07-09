@@ -126,7 +126,7 @@ class PersonalDetailForm extends PureComponent {
                   </div>
         }
         { !loading &&
-      <div>
+            <div>
             <div className="pd-form-heading">
             Select Govement ID Proof
             </div>

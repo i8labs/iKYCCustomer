@@ -1,9 +1,9 @@
 .kyc_form-container {
     background: #FFFFFF;
     position:absolute;
-    right: 2px;
+    right: 0;
     top:64px;
-    width: 66%;
+    width: 80%;
     font-style: normal;
     font-weight: normal;
     border-left: 1px solid #E0E0E0;
